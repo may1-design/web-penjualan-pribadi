@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warung Berkah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #27ae60;
+      --green-light: #2ecc71;
+      --green-pale: #d5f5e3;
+      --amber: #ffd700;
+      --amber-dark: #b5840a;
+      --text: #1b2429;
+      --text-muted: #5a6472;
+      --surface: #dfe4ea;
+      --white: #ffffff;
+      --border: #c8d0d8;
+      --navy: #2c3e50;
+      --radius: 14px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(to right, #f1f2f6, #dfe4ea);
+      color: var(--text);
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 60px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+    nav .brand {
+      font-family: 'Playfair Display', serif;
+      color: #ffffff;
+      font-size: 1.35rem;
+      letter-spacing: 0.5px;
+    }
+    nav ul { list-style: none; display: flex; gap: 24px; }
+    nav ul a {
+      color: #c8ebd9; text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      transition: color .2s;
+    }
+    nav ul a:hover { color: var(--amber); }
+    .nav-cart-btn {
+      background: #ffffff; color: var(--navy);
+      border: none; border-radius: 20px;
+      padding: 6px 14px; font-size: 0.82rem;
+      font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: background .2s;
+    }
+    .nav-cart-btn:hover { background: #e8ecf0; }
+    #cart-count {
+      background: var(--navy); color: #ffffff;
+      border-radius: 50%; width: 20px; height: 20px;
+      font-size: 0.72rem; display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image/warung.jpg');
+      background-size: contain;
+      background-position: center;
+      background-color: #2c3e50;
+      padding: 64px 5vw 56px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before { display: none; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(233,196,106,0.2);
+      color: var(--amber);
+      border: 1px solid rgba(233,196,106,0.4);
+      border-radius: 20px;
+      padding: 4px 16px; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      color: #fff; font-size: clamp(1.6rem, 4vw, 2.8rem);
+      line-height: 1.2; margin-bottom: 16px;
+      overflow: hidden; white-space: nowrap;
+    }
+    .running-text {
+      display: inline-block;
+      animation: marquee 12s linear infinite;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+    .hero h2 span { color: #fff; }
+    .hero .tagline {
+      color: #ffffff; font-size: 1rem; margin-bottom: 8px;
+    }
+    .hero .jam {
+      color: var(--amber); font-size: 0.9rem; font-weight: 600;
+    }
+    .hero-cta {
+      margin-top: 28px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .btn-wa {
+      background: #25D366; color: #fff;
+      padding: 12px 28px; border-radius: 30px;
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      display: flex; align-items: center; gap: 8px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+    }
+    .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,0.45); }
+    .btn-outline {
+      background: transparent; color: #fff;
+      padding: 12px 24px; border-radius: 30px;
+      text-decoration: none; font-weight: 500; font-size: 0.9rem;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      transition: background .2s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+    /* TENTANG */
+    .about-strip {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 5vw;
+      display: flex; gap: 32px; flex-wrap: wrap; justify-content: center;
+    }
+    .about-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.9rem; color: var(--text-muted);
+    }
+    .about-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--green-pale); display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .about-item strong { color: var(--text); font-size: 0.95rem; display: block; }
+
+    /* SECTION */
+    .section { padding: 48px 5vw; }
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.7rem; color: var(--navy);
+      margin-bottom: 6px; font-weight: 700;
+    }
+    .section-sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
+
+    /* SEARCH + FILTER */
+    .toolbar {
+      display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+      margin-bottom: 28px;
+    }
+    .search-box {
+      flex: 1; min-width: 200px;
+      display: flex; align-items: center;
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 30px; padding: 8px 16px; gap: 8px;
+    }
+    .search-box input {
+      border: none; outline: none; background: transparent;
+      font-size: 0.9rem; font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text); width: 100%;
+    }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn {
+      background: var(--white); border: 1.5px solid var(--border);
+      color: var(--text-muted); border-radius: 20px;
+      padding: 7px 16px; font-size: 0.82rem; font-weight: 500;
+      cursor: pointer; transition: all .2s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--navy); color: #fff; border-color: var(--navy);
+    }
+
+  /* PRODUK GRID */
+.menu-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.menu-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 12px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  position: relative;
+}
+
+.menu-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--green-light);
+}
+
+.menu-item.hidden { 
+  display: none; 
+}
+
+.produk-img {
+  width: 100%;              /* gambar menyesuaikan lebar card */
+  height: 110px;            /* compact dan proporsional */
+  object-fit: contain;      /* gambar utuh, tidak terpotong */
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: #ffffff;      /* latar putih bersih */
+}
+
+.menu-item h3 { 
+  font-size: 0.85rem; 
+  font-weight: 600; 
+  margin-bottom: 4px; 
+}
+
+.menu-item .harga { 
+  color: var(--navy); 
+  font-size: 0.8rem; 
+  font-weight: 600; 
+}
+
+.menu-item .satuan { 
+  color: var(--text-muted); 
+  font-size: 0.72rem; 
+}
+
+.add-btn {
+  margin-top: 8px;
+  background: var(--navy); 
+  color: #ffffff;
+  border: none; 
+  border-radius: 18px;
+  padding: 5px 12px; 
+  font-size: 0.78rem; 
+  font-weight: 600;
+  cursor: pointer; 
+  transition: background .2s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  width: 100%;
+}
+
+.add-btn:hover { 
+  background: #1a2530; 
+  color: #fff; 
+}
+
+.stok-badge {
+  position: absolute; 
+  top: 6px; 
+  right: 6px;
+  font-size: 0.65rem; 
+  font-weight: 700; 
+  padding: 2px 6px;
+  border-radius: 8px; 
+  text-transform: uppercase;
+}
+
+.stok-ada { 
+  background: var(--navy); 
+  color: #ffffff; 
+}
+
+.stok-habis { 
+  background: #fde8e8; 
+  color: #b91c1c; 
+}
+
+.no-result {
+  grid-column: 1/-1; 
+  text-align: center;
+  color: var(--text-muted); 
+  padding: 30px 0; 
+  font-size: 0.9rem;
+  display: none;
+}
+
+
+    /* POPUP */
+    .overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5); z-index: 200;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .overlay.open { display: flex; }
+    .popup {
+      background: var(--white); border-radius: 20px;
+      max-width: 380px; width: 100%; padding: 28px 24px;
+      position: relative;
+    }
+    .popup-img {
+      width: 120px; height: 120px; object-fit: cover;
+      border-radius: 12px; margin: 0 auto 16px; display: block;
+      background: var(--surface);
+    }
+    .popup h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+    .popup .popup-harga { color: var(--navy); font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .popup .popup-desc { color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 16px; }
+    .qty-row {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    }
+    .qty-btn {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1.5px solid var(--border); background: var(--surface);
+      font-size: 1.1rem; cursor: pointer; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .qty-btn:hover { background: var(--green-pale); }
+    #popup-qty { font-size: 1rem; font-weight: 700; min-width: 24px; text-align: center; }
+    .popup-add-btn {
+      background: var(--green); color: #fff;
+      border: none; border-radius: 30px; width: 100%;
+      padding: 12px; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: background .2s;
+    }
+    .popup-add-btn:hover { background: #1b4332; }
+    .close-btn {
+      position: absolute; top: 14px; right: 16px;
+      background: none; border: none; font-size: 1.4rem;
+      cursor: pointer; color: var(--text-muted); line-height: 1;
+    }
+
+    /* KERANJANG */
+    .cart-panel {
+      display: none; position: fixed; right: 0; top: 0; bottom: 0;
+      width: 320px; max-width: 90vw;
+      background: var(--white); box-shadow: -4px 0 30px rgba(0,0,0,0.15);
+      z-index: 300; flex-direction: column;
+      border-radius: 20px 0 0 20px;
+    }
+    .cart-panel.open { display: flex; }
+    .cart-header {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cart-header h3 { font-size: 1.05rem; font-weight: 700; color: var(--navy); }
+    .cart-items { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .cart-empty { text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 0.9rem; }
+    .cart-item {
+      display: flex; gap: 12px; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-size: 0.88rem; font-weight: 600; }
+    .cart-item-price { font-size: 0.8rem; color: var(--navy); }
+    .cart-item-qty {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .cart-qty-btn {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--surface);
+      font-size: 0.9rem; cursor: pointer; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-qty-val { font-size: 0.85rem; font-weight: 700; min-width: 18px; text-align: center; }
+    .cart-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .cart-total {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px;
+    }
+    .cart-total-label { font-size: 0.85rem; color: var(--text-muted); }
+    .cart-total-val { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+    .cart-wa-btn {
+      background: #25D366; color: #fff;
+      border: none; border-radius: 30px; width: 100%;
+      padding: 12px; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: background .2s;
+    }
+    .cart-wa-btn:hover { background: #1da850; }
+    .cart-clear-btn {
+      background: none; color: var(--text-muted); border: none;
+      font-size: 0.8rem; cursor: pointer; margin-top: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif; width: 100%;
+    }
+
+    /* KONTAK */
+    .kontak-box {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+    }
+    .kontak-inner {
+      max-width: 520px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .kontak-addr {
+      color: var(--text-muted); font-size: 0.9rem;
+      line-height: 1.7; margin-bottom: 20px;
+    }
+    .kontak-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn-green {
+      background: var(--green); color: #fff;
+      padding: 11px 24px; border-radius: 30px;
+      text-decoration: none; font-weight: 600; font-size: 0.88rem;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background .2s;
+    }
+    .btn-green:hover { background: #1b4332; }
+    .btn-maps {
+      background: #e8f4fb; color: #0369a1;
+      padding: 11px 24px; border-radius: 30px;
+      text-decoration: none; font-weight: 600; font-size: 0.88rem;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background .2s;
+    }
+    .btn-maps:hover { background: #bae6fd; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      color: #a8b8c8; text-align: center;
+      padding: 20px; font-size: 0.85rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      nav ul { display: none; }
+      .menu-container { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .hero { padding: 44px 5vw 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- POPUP DETAIL PRODUK -->
+<div class="overlay" id="overlay" onclick="closePopup(event)">
+  <div class="popup">
+    <button class="close-btn" onclick="closePopupDirect()">✕</button>
+    <img id="popup-img" src="" alt="" class="popup-img">
+    <h3 id="popup-name"></h3>
+    <div class="popup-harga" id="popup-harga"></div>
+    <p class="popup-desc" id="popup-desc"></p>
+    <div class="qty-row">
+      <button class="qty-btn" onclick="changeQty(-1)">−</button>
+      <span id="popup-qty">1</span>
+      <button class="qty-btn" onclick="changeQty(1)">+</button>
+      <span style="font-size:0.82rem;color:var(--text-muted)" id="popup-satuan"></span>
+    </div>
+    <button class="popup-add-btn" onclick="addToCartFromPopup()">+ Tambah ke Keranjang</button>
+  </div>
+</div>
+
+<!-- KERANJANG PANEL -->
+<div class="cart-panel" id="cart-panel">
+  <div class="cart-header">
+    <h3>🛒 Keranjang Belanja</h3>
+    <button class="close-btn" onclick="toggleCart()" style="position:static">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty" id="cart-empty">Keranjang masih kosong</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">Total Harga</span>
+      <span class="cart-total-val" id="cart-total">Rp 0</span>
+    </div>
+    <button class="cart-wa-btn" onclick="orderViaWA()">📲 Pesan via WhatsApp</button>
+    <button class="cart-clear-btn" onclick="clearCart()">Kosongkan keranjang</button>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="brand">Warung Berkah</div>
+  <ul>
+    <li><a href="#tentang">Tentang</a></li>
+    <li><a href="#menu">Produk</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+  <button class="nav-cart-btn" onclick="toggleCart()">
+    🛒 Keranjang <span id="cart-count">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-badge">Warung Terpercaya Sejak 2026</div>
+  <h2><span class="running-text">✨ Selamat Datang di Warung Berkah ✨ &nbsp;&nbsp;&nbsp;</span></h2>
+  <p class="tagline">Kebutuhan Rumah Tangga Lengkap • Harga Terjangkau • Pelayanan Ramah</p>
+  <p class="jam">⏰ Jam Buka: 08.00 – 22.00 WIB</p>
+  <div class="hero-cta">
+    <a href="#menu" class="btn-outline">Lihat Produk ↓</a>
+  </div>
+</section>
+
+<!-- TENTANG -->
+<div class="about-strip" id="tentang">
+  <div class="about-item">
+    <div class="about-icon">🏪</div>
+    <div>
+      <strong>Warung Lokal</strong>
+      Melayani warga sekitar Wonomulyo
+    </div>
+  </div>
+  <div class="about-item">
+    <div class="about-icon">✅</div>
+    <div>
+      <strong>Produk Terjamin</strong>
+      Barang segar dan berkualitas
+    </div>
+  </div>
+  <div class="about-item">
+    <div class="about-icon">🚀</div>
+    <div>
+      <strong>Order Mudah</strong>
+      Pesan langsung via WhatsApp
+    </div>
+  </div>
+  <div class="about-item">
+    <div class="about-icon">⏰</div>
+    <div>
+      <strong>Buka 14 Jam</strong>
+      Setiap hari 08.00 – 22.00 WIB
+    </div>
+  </div>
+</div>
+
+<!-- PRODUK -->
+<section class="section" id="menu">
+  <div class="section-title">Menu Produk</div>
+  <p class="section-sub">Klik produk untuk melihat detail dan tambahkan ke keranjang</p>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="search-input" placeholder="Cari produk..." oninput="filterProduk()">
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" onclick="setFilter('semua', this)">Semua</button>
+      <button class="filter-btn" onclick="setFilter('pokok', this)">Bahan Pokok</button>
+      <button class="filter-btn" onclick="setFilter('bumbu', this)">Bumbu & Saus</button>
+      <button class="filter-btn" onclick="setFilter('minuman', this)">Minuman</button>
+      <button class="filter-btn" onclick="setFilter('snack', this)">Snack</button>
+      <button class="filter-btn" onclick="setFilter('bodycare', this)">Body Care</button>
+      <button class="filter-btn" onclick="setFilter('kebutuhan', this)">Kebutuhan</button>
+      <button class="filter-btn" onclick="setFilter('obat', this)">Obat</button>
+    </div>
+  </div>
+
+  <div class="menu-container" id="menu-container">
+
+    <div class="menu-item" data-kategori="pokok" data-nama="Beras" data-harga="13000" data-satuan="per kg" data-stok="ada" data-desc="Beras putih premium, pulen dan wangi. Cocok untuk kebutuhan nasi sehari-hari keluarga." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/beras.jpg" class="produk-img" alt="Beras">
+      <h3>Beras</h3>
+      <div class="harga">Rp 13.000</div>
+      <div class="satuan">per kg</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Beras', 13000, 'per kg')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="pokok" data-nama="Minyak Goreng" data-harga="20000" data-satuan="per liter" data-stok="ada" data-desc="Minyak goreng jernih berkualitas, cocok untuk menggoreng dan menumis masakan." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/minyak.jpg" class="produk-img" alt="Minyak Goreng">
+      <h3>Minyak Goreng</h3>
+      <div class="harga">Rp 20.000</div>
+      <div class="satuan">per liter</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Minyak Goreng', 20000, 'per liter')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="pokok" data-nama="Gula Pasir" data-harga="15000" data-satuan="per kg" data-stok="ada" data-desc="Gula pasir putih bersih, manis alami untuk minuman dan masakan." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/gula.jpg" class="produk-img" alt="Gula Pasir">
+      <h3>Gula Pasir</h3>
+      <div class="harga">Rp 15.000</div>
+      <div class="satuan">per kg</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Gula Pasir', 15000, 'per kg')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="minuman" data-nama="Kopi Bubuk" data-harga="10000" data-satuan="per bungkus" data-stok="ada" data-desc="Kopi bubuk pilihan, aroma kuat dan rasa nikmat untuk teman pagi hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/kopi.jpg" class="produk-img" alt="Kopi">
+      <h3>Kopi Bubuk</h3>
+      <div class="harga">Rp 10.000</div>
+      <div class="satuan">per bungkus</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Kopi Bubuk', 10000, 'per bungkus')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="pokok" data-nama="Terigu" data-harga="12000" data-satuan="per kg" data-stok="ada" data-desc="Tepung terigu serbaguna untuk membuat kue, gorengan, dan berbagai masakan." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/terigu.jpg" class="produk-img" alt="Terigu">
+      <h3>Terigu</h3>
+      <div class="harga">Rp 12.000</div>
+      <div class="satuan">per kg</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Terigu', 12000, 'per kg')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="pokok" data-nama="Telur Ayam" data-harga="2500" data-satuan="per butir" data-stok="ada" data-desc="Telur ayam segar, protein tinggi untuk sarapan dan lauk harian." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/telur.jpg" class="produk-img" alt="Telur">
+      <h3>Telur Ayam</h3>
+      <div class="harga">Rp 2.500</div>
+      <div class="satuan">per butir</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Telur Ayam', 2500, 'per butir')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bumbu" data-nama="Kecap & Saus" data-harga="10000" data-satuan="per botol" data-stok="ada" data-desc="Kecap manis dan saus tomat/sambal pilihan, pelengkap masakan dan camilan." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/kecap&saus.jpg" class="produk-img" alt="Kecap dan Saus">
+      <h3>Kecap & Saus</h3>
+      <div class="harga">Rp 10.000</div>
+      <div class="satuan">per botol</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Kecap & Saus', 10000, 'per botol')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="minuman" data-nama="Susu Frisian Flag" data-harga="14000" data-satuan="per kaleng" data-stok="ada" data-desc="Susu kental manis Frisian Flag, kaya nutrisi untuk keluarga dan campuran minuman." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/susu frisian flag.jpg" class="produk-img" alt="Susu Frisian Flag">
+      <h3>Susu Frisian Flag</h3>
+      <div class="harga">Rp 14.000</div>
+      <div class="satuan">per kaleng</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Susu Frisian Flag', 14000, 'per kaleng')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bumbu" data-nama="Penyedap Rasa" data-harga="1000" data-satuan="mulai dari" data-stok="ada" data-desc="Penyedap rasa berbagai merek tersedia mulai Rp 1.000 – Rp 5.000 per sachet/bungkus." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/penyedap rasa.jpg" class="produk-img" alt="Penyedap Rasa">
+      <h3>Penyedap Rasa</h3>
+      <div class="harga">Rp 1.000 – 5.000</div>
+      <div class="satuan">per sachet</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Penyedap Rasa', 1000, 'per sachet')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="snack" data-nama="Mie Instan" data-harga="3500" data-satuan="per bungkus" data-stok="ada" data-desc="Mie instan berbagai rasa, praktis dan mengenyangkan untuk makan kapan saja." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/mie instan.jpg" class="produk-img" alt="Mie Instan">
+      <h3>Mie Instan</h3>
+      <div class="harga">Rp 3.500</div>
+      <div class="satuan">per bungkus</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Mie Instan', 3500, 'per bungkus')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bodycare" data-nama="Sabun Batang" data-harga="4500" data-satuan="per pcs" data-stok="ada" data-desc="Sabun batang wangi untuk kebersihan dan kesegaran kulit sehari-hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/sabun batang.jpg" class="produk-img" alt="Sabun Batang">
+      <h3>Sabun Batang</h3>
+      <div class="harga">Rp 4.500</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Sabun Batang', 4500, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bodycare" data-nama="Pepsodent" data-harga="6000" data-satuan="per pcs" data-stok="ada" data-desc="Pasta gigi Pepsodent untuk gigi bersih, kuat, dan nafas segar sepanjang hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/pepsodent.jpg" class="produk-img" alt="Pepsodent">
+      <h3>Pepsodent</h3>
+      <div class="harga">Rp 6.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Pepsodent', 6000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bodycare" data-nama="Shampoo Renceng" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Shampoo sachet renceng praktis, tersedia berbagai merek dan varian wangi." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/shampoo renceng.jpg" class="produk-img" alt="Shampoo Renceng">
+      <h3>Shampoo Renceng</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Shampoo Renceng', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="snack" data-nama="Qtela Singkong" data-harga="5000" data-satuan="per pcs" data-stok="ada" data-desc="Keripik singkong Qtela renyah dan gurih, cocok untuk camilan kapan saja." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/qtela singkong.jpg" class="produk-img" alt="Qtela Singkong">
+      <h3>Qtela Singkong</h3>
+      <div class="harga">Rp 5.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Qtela Singkong', 5000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="minuman" data-nama="Sirup Marjan" data-harga="27000" data-satuan="per botol" data-stok="ada" data-desc="Sirup Marjan manis segar tersedia berbagai rasa, cocok untuk minuman keluarga." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/sirup marjan.jpg" class="produk-img" alt="Sirup Marjan">
+      <h3>Sirup Marjan</h3>
+      <div class="harga">Rp 27.000</div>
+      <div class="satuan">per botol</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Sirup Marjan', 27000, 'per botol')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="minuman" data-nama="Sirup ABC Delight" data-harga="15000" data-satuan="per botol" data-stok="ada" data-desc="Sirup ABC Delight rasa buah segar, cocok disajikan dingin untuk keluarga." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/sirup abc delight.jpg" class="produk-img" alt="Sirup ABC Delight">
+      <h3>Sirup ABC Delight</h3>
+      <div class="harga">Rp 15.000</div>
+      <div class="satuan">per botol</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Sirup ABC Delight', 15000, 'per botol')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="snack" data-nama="Roma Kelapa" data-harga="10000" data-satuan="per pcs" data-stok="ada" data-desc="Biskuit Roma Kelapa renyah dan manis, cocok untuk camilan dan teman minum teh." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/roma kelapa.jpg" class="produk-img" alt="Roma Kelapa">
+      <h3>Roma Kelapa</h3>
+      <div class="harga">Rp 10.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Roma Kelapa', 10000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="snack" data-nama="Beng Beng" data-harga="2500" data-satuan="per pcs" data-stok="ada" data-desc="Coklat wafer Beng Beng crispy dan manis, camilan favorit semua kalangan." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/beng beng.jpg" class="produk-img" alt="Beng Beng">
+      <h3>Beng Beng</h3>
+      <div class="harga">Rp 2.500</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Beng Beng', 2500, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bodycare" data-nama="Sikat Gigi" data-harga="5000" data-satuan="per pcs" data-stok="ada" data-desc="Sikat gigi berkualitas dengan bulu sikat lembut untuk membersihkan gigi secara optimal." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/sikat gigi.jpg" class="produk-img" alt="Sikat Gigi">
+      <h3>Sikat Gigi</h3>
+      <div class="harga">Rp 5.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Sikat Gigi', 5000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="snack" data-nama="Hatari" data-harga="7000" data-satuan="per pcs" data-stok="ada" data-desc="Snack Hatari gurih dan renyah, cocok untuk teman santai kapan saja." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/hatari.jpg" class="produk-img" alt="Hatari">
+      <h3>Hatari</h3>
+      <div class="harga">Rp 7.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Hatari', 7000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bodycare" data-nama="Facial Wash Wardah" data-harga="30000" data-satuan="per pcs" data-stok="ada" data-desc="Sabun cuci muka Wardah untuk membersihkan wajah secara lembut dan menjaga kelembapan kulit." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/facial wash wardah.jpg" class="produk-img" alt="Facial Wash Wardah">
+      <h3>Facial Wash Wardah</h3>
+      <div class="harga">Rp 30.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Facial Wash Wardah', 30000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bodycare" data-nama="Sunscreen Wardah" data-harga="35000" data-satuan="per pcs" data-stok="ada" data-desc="Sunscreen Wardah melindungi kulit dari paparan sinar UV, cocok untuk aktivitas sehari-hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/sunscreen wardah.jpg" class="produk-img" alt="Sunscreen Wardah">
+      <h3>Sunscreen Wardah</h3>
+      <div class="harga">Rp 35.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Sunscreen Wardah', 35000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="snack" data-nama="Garuda Rosta" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Kacang Garuda Rosta gurih dan renyah, camilan praktis harga terjangkau." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/garuda rosta.jpg" class="produk-img" alt="Garuda Rosta">
+      <h3>Garuda Rosta</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Garuda Rosta', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="snack" data-nama="Tango" data-harga="3000" data-satuan="per pcs" data-stok="ada" data-desc="Wafer Tango crispy dengan berbagai pilihan rasa, camilan ringan yang mengenyangkan." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/tango.jpg" class="produk-img" alt="Tango">
+      <h3>Tango</h3>
+      <div class="harga">Rp 3.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Tango', 3000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="pokok" data-nama="Garam" data-harga="5000" data-satuan="per pcs" data-stok="ada" data-desc="Garam dapur beryodium untuk bumbu masakan sehari-hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/garam.jpg" class="produk-img" alt="Garam">
+      <h3>Garam</h3>
+      <div class="harga">Rp 5.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Garam', 5000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="kebutuhan" data-nama="Popok Bayi" data-harga="5000" data-satuan="per pcs" data-stok="ada" data-desc="Popok bayi lembut dan nyaman, menjaga si kecil tetap kering sepanjang hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/popok bayi.jpg" class="produk-img" alt="Popok Bayi">
+      <h3>Popok Bayi</h3>
+      <div class="harga">Rp 5.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Popok Bayi', 5000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="kebutuhan" data-nama="Pembalut" data-harga="10000" data-satuan="per pcs" data-stok="ada" data-desc="Pembalut wanita lembut dan nyaman untuk perlindungan maksimal setiap hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/pembalut.jpg" class="produk-img" alt="Pembalut">
+      <h3>Pembalut</h3>
+      <div class="harga">Rp 10.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Pembalut', 10000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="kebutuhan" data-nama="Galon" data-harga="7000" data-satuan="per galon" data-stok="ada" data-desc="Air minum galon bersih dan segar untuk kebutuhan minum keluarga sehari-hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/galon.jpg" class="produk-img" alt="Galon">
+      <h3>Galon</h3>
+      <div class="harga">Rp 7.000</div>
+      <div class="satuan">per galon</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Galon', 7000, 'per galon')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="kebutuhan" data-nama="Tabung Gas" data-harga="30000" data-satuan="per tabung" data-stok="ada" data-desc="Tabung gas LPG 3kg untuk kebutuhan memasak sehari-hari keluarga." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/tabung gas.jpg" class="produk-img" alt="Tabung Gas">
+      <h3>Tabung Gas</h3>
+      <div class="harga">Rp 30.000</div>
+      <div class="satuan">per tabung</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Tabung Gas', 30000, 'per tabung')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="bodycare" data-nama="Herocyn Botol" data-harga="15000" data-satuan="per pcs" data-stok="ada" data-desc="Herocyn cair dalam botol untuk mengatasi gatal dan biang keringat dengan cepat." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/herocyn botol.jpg" class="produk-img" alt="Herocyn Botol">
+      <h3>Herocyn Botol</h3>
+      <div class="harga">Rp 15.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Herocyn Botol', 15000, 'per pcs')">+ Tambah</button>
+    </div>
+
+
+
+    <div class="menu-item" data-kategori="bodycare" data-nama="Bedak Baby Johnson" data-harga="15000" data-satuan="per pcs" data-stok="ada" data-desc="Bedak bayi Johnson lembut dan wangi, aman untuk kulit bayi dan keluarga." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/bedak baby johnson.jpg" class="produk-img" alt="Bedak Baby Johnson">
+      <h3>Bedak Baby Johnson</h3>
+      <div class="harga">Rp 15.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Bedak Baby Johnson', 15000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Paracetamol" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Paracetamol untuk meredakan demam, sakit kepala, dan nyeri ringan." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/paracetamol.jpg" class="produk-img" alt="Paracetamol">
+      <h3>Paracetamol</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Paracetamol', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Bodrex" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Bodrex untuk meredakan sakit kepala, demam, dan flu secara efektif." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/bodrex.jpg" class="produk-img" alt="Bodrex">
+      <h3>Bodrex</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Bodrex', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Paramex" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Paramex untuk meredakan sakit kepala, pusing, dan nyeri otot." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/paramex.jpg" class="produk-img" alt="Paramex">
+      <h3>Paramex</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Paramex', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Mixagrip" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Mixagrip untuk meredakan gejala flu, hidung tersumbat, dan sakit kepala." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/mixagrip.jpg" class="produk-img" alt="Mixagrip">
+      <h3>Mixagrip</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Mixagrip', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Salonpas" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Koyo Salonpas untuk meredakan nyeri otot, pegal linu, dan sakit punggung." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/salonpas.jpg" class="produk-img" alt="Salonpas">
+      <h3>Salonpas</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Salonpas', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Baby Fever" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Kompres demam bayi untuk menurunkan panas si kecil dengan cepat dan aman." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/baby fever.jpg" class="produk-img" alt="Baby Fever">
+      <h3>Baby Fever</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Baby Fever', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Minyak Kayu Putih" data-harga="8000" data-satuan="per pcs" data-stok="ada" data-desc="Minyak kayu putih untuk menghangatkan tubuh, meredakan masuk angin dan perut kembung." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/minyak kayu putih.jpg" class="produk-img" alt="Minyak Kayu Putih">
+      <h3>Minyak Kayu Putih</h3>
+      <div class="harga">Rp 8.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Minyak Kayu Putih', 8000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Balsem" data-harga="8000" data-satuan="per pcs" data-stok="ada" data-desc="Balsem untuk meredakan pegal linu, nyeri otot, dan menghangatkan tubuh." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/balsem.jpg" class="produk-img" alt="Balsem">
+      <h3>Balsem</h3>
+      <div class="harga">Rp 8.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Balsem', 8000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Komix" data-harga="2000" data-satuan="per pcs" data-stok="ada" data-desc="Komix obat batuk sachet yang praktis untuk meredakan batuk berdahak dan batuk kering." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/komix.jpg" class="produk-img" alt="Komix">
+      <h3>Komix</h3>
+      <div class="harga">Rp 2.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Komix', 2000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Tolak Angin" data-harga="4000" data-satuan="per pcs" data-stok="ada" data-desc="Tolak Angin untuk mengatasi masuk angin, perut kembung, mual, dan pusing." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/tolak angin.jpg" class="produk-img" alt="Tolak Angin">
+      <h3>Tolak Angin</h3>
+      <div class="harga">Rp 4.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Tolak Angin', 4000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="obat" data-nama="Entrostop" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Entrostop untuk mengatasi diare dan mencret secara cepat dan efektif." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/entrostop.jpg" class="produk-img" alt="Entrostop">
+      <h3>Entrostop</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Entrostop', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="minuman" data-nama="Fanta Kaleng" data-harga="6000" data-satuan="per kaleng" data-stok="ada" data-desc="Fanta kaleng segar dengan rasa buah yang manis, cocok untuk minuman dingin sehari-hari." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/fanta kaleng.jpg" class="produk-img" alt="Fanta Kaleng">
+      <h3>Fanta Kaleng</h3>
+      <div class="harga">Rp 6.000</div>
+      <div class="satuan">per kaleng</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Fanta Kaleng', 6000, 'per kaleng')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="minuman" data-nama="Teh Sosro Botol" data-harga="7000" data-satuan="per botol" data-stok="ada" data-desc="Teh Sosro botol asli teh wangi melati, segar dan nikmat untuk diminum kapan saja." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/teh sosro botol.jpg" class="produk-img" alt="Teh Sosro Botol">
+      <h3>Teh Sosro Botol</h3>
+      <div class="harga">Rp 7.000</div>
+      <div class="satuan">per botol</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Teh Sosro Botol', 7000, 'per botol')">+ Tambah</button>
+    </div>
+
+    <div class="menu-item" data-kategori="minuman" data-nama="Ale Ale" data-harga="1000" data-satuan="per pcs" data-stok="ada" data-desc="Minuman Ale Ale segar dengan berbagai rasa buah, praktis dan menyegarkan." onclick="openPopup(this)">
+      <span class="stok-badge stok-ada">Tersedia</span>
+      <img src="image/ale ale.jpg" class="produk-img" alt="Ale Ale">
+      <h3>Ale Ale</h3>
+      <div class="harga">Rp 1.000</div>
+      <div class="satuan">per pcs</div>
+      <button class="add-btn" onclick="event.stopPropagation(); quickAdd('Ale Ale', 1000, 'per pcs')">+ Tambah</button>
+    </div>
+
+    <div class="no-result" id="no-result">Produk tidak ditemukan 😔</div>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section class="section kontak-box" id="kontak">
+  <div class="kontak-inner">
+    <div class="section-title">Kontak & Lokasi</div>
+    <p class="kontak-addr">
+      📍 Jl. Padi Unggul No.2, Sidodadi, Kec. Wonomulyo,<br>
+      Kabupaten Polewali Mandar, Sulawesi Barat 91352<br><br>
+      📞 0823-4734-3160<br>
+      ⏰ Setiap hari, 08.00 – 22.00 WIB
+    </p>
+    <div class="kontak-btns">
+      <a href="https://wa.me/6282347343160" class="btn-green" target="_blank">💬 Chat WhatsApp</a>
+      <a href="https://maps.google.com/?q=Jl.+Padi+Unggul+No.2,+Sidodadi,+Kec.+Wonomulyo,+Kabupaten+Polewali+Mandar,+Sulawesi+Barat+91352" class="btn-maps" target="_blank">🗺️ Lihat di Maps</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Warung Berkah · Sidodadi, Wonomulyo, Sulawesi Barat</p>
+</footer>
+
+<script>
+  // ---- DATA KERANJANG ----
+  let cart = [];
+  let currentFilter = 'semua';
+  let currentPopup = null;
+  let popupQty = 1;
+
+  // ---- FILTER & SEARCH ----
+  function setFilter(cat, btn) {
+    currentFilter = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProduk();
+  }
+
+  function filterProduk() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    const items = document.querySelectorAll('.menu-item[data-nama]');
+    let visible = 0;
+    items.forEach(item => {
+      const nama = item.dataset.nama.toLowerCase();
+      const kat = item.dataset.kategori;
+      const matchSearch = nama.includes(q);
+      const matchFilter = currentFilter === 'semua' || kat === currentFilter;
+      if (matchSearch && matchFilter) { item.classList.remove('hidden'); visible++; }
+      else item.classList.add('hidden');
+    });
+    document.getElementById('no-result').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  // ---- POPUP ----
+  function openPopup(el) {
+    currentPopup = {
+      nama: el.dataset.nama,
+      harga: parseInt(el.dataset.harga),
+      satuan: el.dataset.satuan,
+      img: el.querySelector('.produk-img').src,
+      desc: el.dataset.desc
+    };
+    popupQty = 1;
+    document.getElementById('popup-img').src = currentPopup.img;
+    document.getElementById('popup-name').textContent = currentPopup.nama;
+    document.getElementById('popup-harga').textContent = 'Rp ' + currentPopup.harga.toLocaleString('id-ID');
+    document.getElementById('popup-desc').textContent = currentPopup.desc;
+    document.getElementById('popup-qty').textContent = popupQty;
+    document.getElementById('popup-satuan').textContent = currentPopup.satuan;
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup(e) {
+    if (e.target.id === 'overlay') closePopupDirect();
+  }
+  function closePopupDirect() {
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function changeQty(d) {
+    popupQty = Math.max(1, popupQty + d);
+    document.getElementById('popup-qty').textContent = popupQty;
+  }
+
+  function addToCartFromPopup() {
+    if (!currentPopup) return;
+    addToCart(currentPopup.nama, currentPopup.harga, currentPopup.satuan, popupQty);
+    closePopupDirect();
+  }
+
+  function quickAdd(nama, harga, satuan) {
+    addToCart(nama, harga, satuan, 1);
+  }
+
+  // ---- KERANJANG ----
+  function addToCart(nama, harga, satuan, qty) {
+    const existing = cart.find(i => i.nama === nama);
+    if (existing) existing.qty += qty;
+    else cart.push({ nama, harga, satuan, qty });
+    updateCartUI();
+    // Buka keranjang sebentar lalu tutup
+    document.getElementById('cart-panel').classList.add('open');
+  }
+
+  function toggleCart() {
+    document.getElementById('cart-panel').classList.toggle('open');
+  }
+
+  function changeCartQty(nama, d) {
+    const item = cart.find(i => i.nama === nama);
+    if (!item) return;
+    item.qty += d;
+    if (item.qty <= 0) cart = cart.filter(i => i.nama !== nama);
+    updateCartUI();
+  }
+
+  function clearCart() {
+    cart = [];
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    const total = cart.reduce((s, i) => s + i.harga * i.qty, 0);
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cart-count').textContent = count;
+    document.getElementById('cart-total').textContent = 'Rp ' + total.toLocaleString('id-ID');
+
+    const container = document.getElementById('cart-items');
+    const empty = document.getElementById('cart-empty');
+    if (cart.length === 0) {
+      empty.style.display = 'block';
+      container.querySelectorAll('.cart-item').forEach(e => e.remove());
+      return;
+    }
+    empty.style.display = 'none';
+    container.querySelectorAll('.cart-item').forEach(e => e.remove());
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.nama}</div>
+          <div class="cart-item-price">Rp ${(item.harga * item.qty).toLocaleString('id-ID')} · ${item.qty} ${item.satuan}</div>
+        </div>
+        <div class="cart-item-qty">
+          <button class="cart-qty-btn" onclick="changeCartQty('${item.nama}', -1)">−</button>
+          <span class="cart-qty-val">${item.qty}</span>
+          <button class="cart-qty-btn" onclick="changeCartQty('${item.nama}', 1)">+</button>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function orderViaWA() {
+    if (cart.length === 0) return alert('Keranjang masih kosong!');
+    let msg = 'Halo Warung Berkah, saya ingin memesan:\n\n';
+    cart.forEach(item => {
+      msg += `• ${item.nama} x${item.qty} (${item.satuan}) = Rp ${(item.harga * item.qty).toLocaleString('id-ID')}\n`;
+    });
+    const total = cart.reduce((s, i) => s + i.harga * i.qty, 0);
+    msg += `\nTotal: Rp ${total.toLocaleString('id-ID')}\n\nMohon konfirmasi ketersediaan. Terima kasih!`;
+    window.open('https://wa.me/6282347343160?text=' + encodeURIComponent(msg), '_blank');
+  }
+</script>
+</body>
+</html>
